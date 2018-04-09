@@ -25,7 +25,7 @@ class Sign
     protected $group = '';
 
 
-	public function __construct(string $sign, string $group)
+	public function __construct($sign, $group)
 	{
 		$this->cachePrefix = config('firewall.cache_key_prefix') ?: 'firewall';
 		$this->cacheExpire = config('firewall.cache_expire_time') ?: 1440;

@@ -16,7 +16,9 @@ class Uri
 	public function __construct()
 	{
 		$this->interfaceGroups = config('firewall.interface_group');
-		$this->parseRelation();
+		if (!empty($this->interfaceGroups)) {
+			$this->parseRelation();
+		}
 	}
 
 
@@ -65,6 +67,9 @@ class Uri
 	protected function parseRelation()
 	{
 		foreach ($this->interfaceGroups as $group => $value) {
+			if ( isset($value['interface'])==false ) {
+				continue;
+			}
             foreach ($value['interface'] as $interface) {
                 $this->interfaceGroupRelation[$interface] = $group;
             }

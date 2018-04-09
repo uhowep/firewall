@@ -11,7 +11,16 @@ A simple anti-irrigation water filtration detection and monitoring for Laravel
 ---
 
 ### Install
-`略略略~`
+composer it
+```
+composer require uhowep/firewall:dev-master
+```
+
+Then run these commands to publish config：
+```
+php artisan vendor:publish --provider="Uhowep\Firewall\FirewallServiceProvider"
+```
+
 
 ### Config
 在`config/firewall.php`文件中配置`interface_group`，该数组中的每个key为接口组的名称，所有的检测配置基于该接口组，其下有`interface`、`interval`、`limit`及`frequency`字段。
