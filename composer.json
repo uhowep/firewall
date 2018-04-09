@@ -1,6 +1,6 @@
 {
-    "name": "uhowep/simple-firewall",
-    "description": "simple firewall",
+    "name": "uhowep/firewall",
+    "description": "A Simple Firewall For Laravel",
     "type": "library",
     "require": {
         "php": ">=7.0.0",

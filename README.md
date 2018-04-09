@@ -1,4 +1,4 @@
-# simple-firewall
+# firewall
 A simple anti-irrigation water filtration detection and monitoring for Laravel
 
 ---
