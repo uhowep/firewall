@@ -3,7 +3,7 @@
 namespace Uhowep\Firewall\Uri;
 
 
-class Interface
+class Uri
 {
 
 	// ['interface' => 'group']
@@ -42,7 +42,7 @@ class Interface
 	 */
 	public function getInterfaceGroup(string $group='')
 	{
-		return $this->interfaceGroups[$group] ?? $this->interfaceGroups;
+		return $this->interfaceGroups[$group] ?? null;
 	}
 
 
@@ -53,7 +53,7 @@ class Interface
 	 */
 	public function getInterfaceGroupRelation(string $interface='')
 	{
-		return $this->interfaceGroupRelation[$interface] ?? $this->interfaceGroupRelation;
+		return $this->interfaceGroupRelation[$interface] ?? null;
 	}
 
 

@@ -8,7 +8,7 @@
 namespace Uhowep\Firewall;
 
 use Uhowep\Firewall\Sign\Sign;
-use Uhowep\Firewall\Uri\Interface;
+use Uhowep\Firewall\Uri\Uri;
 
 
 class Firewall
@@ -19,26 +19,63 @@ class Firewall
 	protected $signEarlyTime;		// the early time of request_at in sign log
 
 
-	public function authorize($sign, $interface)
+	public function __construct()
+	{
+		$this->nowTime = time();
+	}
+
+
+	/**
+	 * authorize the sign could be passed the interface
+	 *
+	 * @param string $sign
+	 * @param string $interface
+	 *
+	 * @return bool $result
+	 */
+	public function authorize(string $sign, string $interface)
 	{
 		// group
-		$groupObj = new Interface();
+		$groupObj = new Uri();
 		$group = $groupObj->getInterfaceGroupRelation($interface);
+		// return true if no that group limit setting for this interface
+		if (is_null($group)) {
+			return true;
+		}
 		// sign
 		$signObj = new Sign($sign, $group);
 		$signLog = $signObj->getLog();
 		// check whether pass
 		$result = $this->isThrough($signLog, $group);
 		// fresh sign log when it is true
-		$result && $signObj->freshLog();
+		$result && $signObj->freshLog($this->nowTime);
 		// return 
 		return $result;
 	}
 	
 
 	/**
-	 * check sign log could through with group config data
+	 * show sign log
 	 *
+	 * @param string $sign
+	 * @param string $group
+	 *
+	 * @return array $signLog
+	 */
+	public function getSignLog(string $sign, string $interface)
+	{
+		// group
+		$groupObj = new Uri();
+		$group = $groupObj->getInterfaceGroupRelation($interface);
+		// sign log
+		$signObj = new Sign($sign, $group);
+		return $signObj->getLog();
+	}
+
+
+	/**
+	 * check sign log could through with group config data
+	 * 访问成功才会记录到log
 	 * @param array $signLog
 	 * @param string $group
 	 *
@@ -46,7 +83,7 @@ class Firewall
 	 */
 	protected function isThrough($signLog, $group)
 	{
-		$interface = new Interface();
+		$interface = new Uri();
 		$interfaceGroup = $interface->getInterfaceGroup($group);
 		// set data
 		$limit = $interfaceGroup['limit'];
@@ -72,18 +109,10 @@ class Firewall
 		if ( $minutes && $times ) {
 			// compare sign log times and group limit
 			if ($signLog['times']>=$times) {
-				$logFrequency = ($this->nowTime - $this->signEarlyTime) / 60;
-                $logFrequency = intval(ceil($logFrequency));
+				$frequencyMinutes = ($this->nowTime - $this->signEarlyTime) / 60;
+                $frequencyMinutes = intval(ceil($frequencyMinutes));
                 // return
-                return ($logFrequency>$minutes);
-			} else {
-				// calculate frequency and compare
-				$frequency = $times / $minutes;
-                $logFrequency = $signLog['times'] / (($this->signLastTime - $this->signEarlyTime)*60);
-                $frequency = round($frequency, 0);
-                $logFrequency = round($logFrequency, 0);
-                // return
-                return ($logFrequency<$frequency);
+                return ($frequencyMinutes>$minutes);
 			}
 		}
 		// no limit or pass limit then return true

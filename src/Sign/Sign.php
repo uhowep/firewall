@@ -30,9 +30,9 @@ class Sign
 		$this->cachePrefix = config('firewall.cache_key_prefix') ?: 'firewall';
 		$this->cacheExpire = config('firewall.cache_expire_time') ?: 1440;
 		$this->logExpireUnit = config('firewall.log_expire_unit') ?: 'daily';
-		$this->frequency = config('firewall.interface_group.frequency');
+		$this->frequency = config("firewall.interface_group.{$group}.frequency");
 		$this->sign = $this->format($sign);
-		$this->group = $cachePrefix.'_'.$group;
+		$this->group = $this->cachePrefix.'_'.$group;
 	}
 
 
@@ -79,20 +79,23 @@ class Sign
 	/**
 	 * write sign log into cache
 	 *
+     * @param int $thisTime
+     *
 	 * @return void
 	 */
-	public function freshLog()
+	public function freshLog($time=null)
 	{
+        $time = $time ?: time();
         // get sign logs
         $logs = Cache::get("{$this->group}");
         // set sign log data
         $signLog = $logs[$this->sign];
         $signLog['times'] += 1;		// increment times for this visit
         if ($signLog['times'] > $this->frequency['times']) {
-            array_push($signLog['request_at'], time());
+            array_push($signLog['request_at'], $time);
             array_shift($signLog['request_at']);
         } else {
-            array_push($signLog['request_at'], time());
+            array_push($signLog['request_at'], $time);
         }
         // refresh sign logs
         $logs[$this->sign] = $signLog;

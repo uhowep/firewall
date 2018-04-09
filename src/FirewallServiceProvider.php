@@ -10,7 +10,7 @@ class FirewallServiceProvider extends ServiceProvider
 
 	public function boot()
 	{
-		$this->publishes([__DIR__.'../config/firewall'=>config_path('firewall.php')],'simple-firewall-config');
+		$this->publishes([__DIR__.'/../config'=>config_path()],'firewall-config');
 	}
 
 

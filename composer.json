@@ -25,6 +25,11 @@
             "src/helpers.php"
         ]
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Uhowep\\Firewall\\Tests\\": "tests/"
+        }
+    },
     "extra": {
         "laravel": {
             "providers": [

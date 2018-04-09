@@ -39,11 +39,11 @@ return [
                 'article_agree',
                 'question_agree',
             ],
-            'limit'     =>  0,      // 一天的次数限制/次,0为不限制
-            'interval'  =>  0,      // 时间间隔/秒,0为不限制
+            'limit'     =>  8,      // 一天的次数限制/次,0为不限制
+            'interval'  =>  2,      // 时间间隔/秒,0为不限制
             'frequency' =>  [       // 频率：minutes分钟内times次
-                'minutes'   =>  0,  // 频率-分钟内,0为不限制
-                'times'     =>  0,  // 频率-访问次数(该值设置将影响空间存储)
+                'minutes'   =>  1,  // 频率-分钟内,0为不限制
+                'times'     =>  5,  // 频率-访问次数(该值设置将影响空间存储)
             ]
         ],
     ],
