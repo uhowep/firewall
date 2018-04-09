@@ -35,6 +35,9 @@ class Firewall
 	 */
 	public function authorize(string $sign, string $interface)
 	{
+		if (empty($sign)) {
+			return true;
+		}
 		// group
 		$groupObj = new Uri();
 		$group = $groupObj->getInterfaceGroupRelation($interface);
