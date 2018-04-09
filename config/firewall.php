@@ -36,9 +36,8 @@ return [
     'interface_group'   =>  [
         'agree'    =>  [            // group name
             'interface' =>  [       // interface list
-                'article_comment_agree',
-                'idle_comment_agree',
-                'conpous_comment_agree',
+                'article_agree',
+                'question_agree',
             ],
             'limit'     =>  0,      // 一天的次数限制/次,0为不限制
             'interval'  =>  0,      // 时间间隔/秒,0为不限制
@@ -65,7 +64,6 @@ return [
     'cache_key_prefix' => 'firewall',
 
 
-
     /*
     |--------------------------------------------------------------------------
     | cache drivers
@@ -78,5 +76,28 @@ return [
 
     'cache_driver'  =>  'default',
 
+
+    /*
+     |-------------------------------------------------------------------------
+     | cache expire time of minute
+     |-------------------------------------------------------------------------
+     |
+     | the cache expire time used minute for unit
+     |
+     */
+
+    'cache_expire_time' => 1440,
+
+
+    /*
+     |-------------------------------------------------------------------------
+     | sign log expire unit 
+     |-------------------------------------------------------------------------
+     |
+     | sign log expire unit, support value : daily
+     |
+     */
+     
+    'log_expire_unit' => 'daily',
 
 ];
